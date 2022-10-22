@@ -52,3 +52,34 @@ border:none
     padding: 20px;
     font: 15px "Century Gothic", "Times Roman", sans-serif;
 }
+
+/* footer */
+.footer{
+    background-color: #000000;
+    color:white;
+}
+.footer a{
+    margin: 25px;
+    color: orange;
+    text-decoration: none;
+}
+.footer a:hover
+{
+text-decoration:none;
+color:#9acd32;
+border-top:2px solid;
+border-color:orange;
+
+}
+.box{
+    padding: 9px;
+    font-size: 15px;
+    text-align: center;
+    border-top: 1px solid;
+    border-color: #323232;
+    background-color: #202020;
+}
+
+.dashlink a:hover{
+    text-decoration: none;
+}

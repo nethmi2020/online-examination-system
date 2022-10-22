@@ -80,108 +80,62 @@
 <div class="bg1">
 <div class="row">
 
-<div class="col-md-7"></div>
-<div class="col-md-4 panel">
-<!-- sign in form begins -->  
-  <form class="form-horizontal" name="form1" action="sign.php"  method="POST">
-<fieldset>
+<div class="col-md-6  panel"  style=" margin-left:auto; margin-right:auto; background-image:url(images/bg1.jpg); min-height:430px;">
+    <h2 align="center">FEEDBACK/REPORT A PROBLEM</h2>
 
+    <?php if(@$_GET['q'])echo '<span style="font-size:18px;"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;'.@$_GET['q'].'</span>';
+else
+{echo'
+ 
+You can send us your feedback through e-mail on the following e-mail id:
+<p>Or you can directly submit your feedback by filling the enteries below:-</p>
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10"> 
+    <form action="feed.php?q=feedback.php" method="POST">
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-12 control-label" for="name"></label>  
-  <div class="col-md-12">
-  <input id="name1" name="name" placeholder="Enter your name" class="form-control input-md" type="text" required>
-  <!-- <h5 id="usercheck" style="color: red;">
-    **Username is missing
-  </h5> -->
-  </div>
+    <div class="row">
+            <div class="col-md-3"><b>Name:</b><br /><br /><br /></div>
+            <div class="col-md-9">
+            <!-- Text input-->
+            <div class="form-group">
+            <input id="name" name="name" placeholder="Enter your name" class="form-control input-md" type="text" required><br />    
+           
+            </div>
+            </div>
+    </div>
+
+    <div class="row">
+            <div class="col-md-3"><b>Subject:</b></div>
+            <div class="col-md-9">
+            <!-- Text input-->
+            <div class="form-group">
+              <input id="name" name="subject" placeholder="Enter subject" class="form-control input-md" type="text" required>    
+
+            </div>
+            </div>
+    </div>
+
+    <div class="row">
+            <div class="col-md-3"><b>Email Address:</b><br /><br /><br /></div>
+            <div class="col-md-9">
+            <!-- Text input-->
+            <div class="form-group">
+            <input id="email" name="email" placeholder="Enter your email" class="form-control input-md" type="email" required><br />             
+            </div>
+            </div>
+    </div>
+
+    <div class="form-group"> 
+        <textarea rows="5" cols="8" name="feedback" class="form-control" placeholder="Write feedback here..." required></textarea>
+        </div>
+        <div class="form-group" align="center">
+        <input type="submit" name="submit" value="Submit" class="btn btn-primary" />
+    </div>
+    </form>';}?>
+</div>
 </div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-12 control-label" for="gender"></label>
-  <div class="col-md-12">
-    <select id="gender" name="gender" placeholder="Enter your gender" class="form-control input-md" required>
-   <option value="Male">Select Gender</option>
-  <option value="M">Male</option>
-  <option value="F">Female</option> </select>
-    <!-- <h5 id="gendercheck" style="color: red;">
-      **Gender is missing
-    </h5> -->
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-12 control-label" for="name"></label>  
-  <div class="col-md-12">
-  <input id="college" name="college" placeholder="Enter your college name" class="form-control input-md"
-   type="text" required>
-  <!-- <h5 id="collegecheck" style="color: red;">
-      **College name  is missing
-    </h5> -->
-  </div>
-</div>
-
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-12 control-label title1" for="email"></label>
-  <div class="col-md-12">
-    <input id="email" name="email" placeholder="Enter your email-id" class="form-control input-md" type="email"
-    required>
-    <!-- <small id="emailvalid" class="form-text text-muted invalid-feedback">
-      Your email must be a valid email
-    </small> -->
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-12 control-label" for="mob"></label>  
-  <div class="col-md-12">
-  <input id="mob" name="mob" placeholder="Enter your mobile number" class="form-control input-md" type="number"
-  required>
-  <!-- <h5 id="mobcheck" style="color: red;">
-      **Mobile number  is missing
-    </h5> -->
-  </div>
-</div>
-
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-12 control-label" for="password"></label>
-  <div class="col-md-12">
-    <input id="password" name="password" placeholder="Enter your password" class="form-control input-md" 
-    type="password" required>
-    <!-- <h5 id="usercheck" style="color: red;">
-      **Password is missing
-    </h5> -->
-  </div>
-</div>
-
-<div class="form-group">
-  <label class="col-md-12control-label" for="cpassword"></label>
-  <div class="col-md-12">
-    <input id="cpassword" name="cpassword" placeholder="Conform Password" class="form-control input-md" 
-    type="password" required>
-    
-  </div>
-</div>
-<!-- <?php if(@$_GET['q7'])
-{ echo'<p style="color:red;font-size:15px;">'.@$_GET['q7'];}?> -->
-<!-- Button -->
-<div class="form-group">
-  <label class="col-md-12 control-label" for=""></label>
-  <div class="col-md-12"> 
-    <input  type="submit" class="sub" value="sign up" class="btn btn-primary"/>
-  </div>
-</div>
-
-</fieldset>
-</form>
 </div><!--col-md-6 end-->
 </div></div>
 </div><!--container end-->
@@ -246,7 +200,6 @@
                         <h4 class="modal-title title1"><span style="color:orange; margin-left:-450px;">Log In</span></h4>
                     </div>
                     <div class="modal-body">
-                      
         <form class="form-horizontal" action="admin.php?q=index.php" method="POST">
 <fieldset>
 
@@ -280,27 +233,5 @@
   </div>
 </body>
 
-<script>
-//   $("#form1").validate({
-//     onsubmit: false
-//   }
-//   rules: {
-//     name: {
-//     required: "Please specify your  name",
-//   }
-//     email: {
-//       required: true,
-//       email: true
-//     }
-//   },
-//   college: {
-//     required: "Please specify your college name",
-//   }
-//     email: {
-//       required: "We need your email address to contact you",
-//       email: "Your email address must be in the format of name@domain.com"
-//     }
-//   }
-// });
-</script>
+
 </html>
