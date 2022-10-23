@@ -83,3 +83,12 @@ border-color:orange;
 .dashlink a:hover{
     text-decoration: none;
 }
+
+/* add quiz form */
+.form-addquiz{
+    width: 860px;
+}
+.quiz{
+   margin-left: 200px;
+   margin-right: 100px;
+}
