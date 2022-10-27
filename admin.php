@@ -13,7 +13,7 @@ $count=mysqli_num_rows($result);
 if($count==1){
     session_start();
     $_SESSION["email"] = $email;
- 
+    $_SESSION["key"] ='sunny7785068889';
     
     header("location:dash.php?q=0");
 }

@@ -57,8 +57,8 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item ">
+        <a class="nav-link" href="dash.php?q=0">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item" <?php if(@$_GET['q']==1) echo'class="active"'; ?>>
         <a class="nav-link" href="dash.php?q=1">User</a>
@@ -66,7 +66,7 @@
       <li class="nav-item">
         <a class="nav-link" href="dash.php?q=2">Ranking</a>
       </li>
-      <li class="nav-item <?php if(@$_GET['q']==1) echo'class="active"'; ?>">
+      <li class="nav-item <?php if(@$_GET['q']==3) echo'class="active"'; ?>">
         <a class="nav-link" href="dash.php?q=3">Feedback</a>
       </li>
       <li class="nav-item dropdown">
@@ -75,7 +75,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="dash.php?q=4">Add Quiz</a>
-          <a class="dropdown-item" href="dash.php?q=5">Remove Quiz</a>
+          <a class="dropdown-item" href="dash.php?q=6">Remove Quiz</a>
       </li>
       <li class="nav-item">
         <button class="btn btn-light my-2 my-sm-0 dashlink"> <a href="index.php" style="color:black" >Sign out</a></button>
@@ -90,6 +90,54 @@
   <div class="row">
     <div class="col-md-12">
 
+<!-- home page start -->
+
+<?php if(@$_GET['q']==0){
+$result = mysqli_query($con,"SELECT * FROM quiz") ;
+
+
+echo '<table class="table mt-5">
+<thead>
+  <tr>
+    <th scope="col"><b>S.N.</b></th>
+    <th scope="col"><b>Topic</b></th>
+    <th scope="col"><b>Total Questions</b></th>
+    <th scope="col"><b>Marks</b></th>
+    <th scope="col"><b>Time Limit</b></th>
+ 
+  </tr>
+</thead>';
+
+$c=1;
+while($row=mysqli_fetch_array($result)){
+
+  $id=$row['id'];
+  $name=$row['name'];
+  $total=$row['total'];
+  $right=$row['right'];
+  $time=$row['time'];
+
+
+echo 
+'<tr>
+
+<td>'. $id.'</td>
+<td>'.$name.'</td>
+<td>'.$total.'</td>
+<td>'.$right. '</td>
+<td>'.$time.'</td>
+<td><a title="Delete User" href="update.php?qid='.$id.'" class="btn btn-primary">Start Quiz<i class="fa-solid fa-trash-can-list"></i></td>
+
+</tr>';
+
+}  
+    $c=0;
+    echo '</table></div></div>';
+    
+    }?>
+
+
+<!-- home page end -->
 
     <!-- user start -->
     <?php if(@$_GET['q']==1){
@@ -125,7 +173,7 @@ echo
 <td>'.$gender. '</td>
 <td>'.$email.'</td>
 <td>'.$college.'</td>
-<td><a title="Delete User" href="update.php?demail='.$email.'">Del<i class="fa-solid fa-trash-can-list"></i></td>
+<td><a class="btn btn-danger" title="Delete User" href="update.php?demail='.$email.'">Delete<i class="fa-solid fa-trash-can-list"></i></td>
 </tr>';
 
 }  
@@ -170,10 +218,10 @@ echo
 <td>'.$date. '</td>
 <td>'.$time.'</td>
 <td>'.$name.'</td>
-<td><a title="Open Feedback" href="dash.php?q=3&fid='.$id.'">
+<td><a title="Open Feedback" href="dash.php?q=3&fid='.$id.'" class="btn btn-success">
 Open<i class="fa-solid fa-trash-can-list"></i></td>';
 echo'
-<td><a title="Delete User" href="update.php?fdid='.$id.'">Del<i class="fa-solid fa-trash-can-list"></i></td>
+<td><a title="Delete User" href="update.php?fdid='.$id.'" class="btn btn-danger">Delete<i class="fa-solid fa-trash-can-list"></i></td>
 </tr>';
 
 }  
@@ -218,7 +266,6 @@ echo'
     echo '  <form class="form-addquiz" name="form1" action="update.php?q=addquiz"  method="POST">
     <fieldset>
     
-    
     <!-- Text input-->
     <div class="form-group">
       <label class="col-md-12 control-label" for="name"></label>  
@@ -234,7 +281,7 @@ echo'
     <div class="form-group">
       <label class="col-md-12 control-label" for="name"></label>  
       <div class="col-md-12">
-      <input id="nquestion" name="numquestion" placeholder="Enter total number of questions" class="form-control input-md" type="text" required>
+      <input id="nquestion" name="numquestion" placeholder="Enter total number of questions" class="form-control input-md" type="number" required>
       <!-- <h5 id="usercheck" style="color: red;">
         **Username is missing
       </h5> -->
@@ -246,7 +293,7 @@ echo'
       <label class="col-md-12 control-label" for="name"></label>  
       <div class="col-md-12">
       <input id="qmarks" name="marks" placeholder="Enter marks on right answer" class="form-control input-md"
-       type="text" required>
+       type="number" required>
       <!-- <h5 id="collegecheck" style="color: red;">
           **College name  is missing
         </h5> -->
@@ -259,7 +306,7 @@ echo'
       <label class="col-md-12 control-label" for="name"></label>  
       <div class="col-md-12">
       <input id="mmarks" name="minmarks" placeholder="Enter minus marks on right answer" class="form-control input-md"
-       type="text" required>
+       type="number" required>
       <!-- <h5 id="collegecheck" style="color: red;">
           **College name  is missing
         </h5> -->
@@ -271,7 +318,7 @@ echo'
       <label class="col-md-12 control-label" for="name"></label>  
       <div class="col-md-12">
       <input id="qtime" name="time" placeholder="Enter time limit" class="form-control input-md"
-       type="text" required>
+       type="number" required>
       <!-- <h5 id="collegecheck" style="color: red;">
           **College name  is missing
         </h5> -->
@@ -310,9 +357,11 @@ echo'
 
   <!-- add quiz step 2 -->
     
-  <?php if(@$_GET['q']==4 && (@$_GET['step'])==2)
+  <?php if(@$_GET['q']==5 && (@$_GET['step'])==2)
   {
 
+    // print_r($_POST);
+    // die();
     echo '  <div class="row">
     <span><b>Enter Question Details</b></span>
     <div class="col-md-1"></div>
@@ -389,7 +438,50 @@ echo'
 ?><!--add quiz step 2 end-->
   
  
+  <!-- remove quiz -->
+  <?php if(@$_GET['q']==6){
+$result = mysqli_query($con,"SELECT * FROM quiz") ;
 
+
+echo '<table class="table mt-5">
+<thead>
+  <tr>
+    <th scope="col"><b>S.N.</b></th>
+    <th scope="col"><b>Topic</b></th>
+    <th scope="col"><b>Total Questions</b></th>
+    <th scope="col"><b>Marks</b></th>
+    <th scope="col"><b>Time Limit</b></th>
+ 
+  </tr>
+</thead>';
+
+$c=1;
+while($row=mysqli_fetch_array($result)){
+
+  $id=$row['id'];
+  $name=$row['name'];
+  $total=$row['total'];
+  $right=$row['right'];
+  $time=$row['time'];
+
+
+echo 
+'<tr>
+
+<td>'. $id.'</td>
+<td>'.$name.'</td>
+<td>'.$total.'</td>
+<td>'.$right. '</td>
+<td>'.$time.'</td>
+<td><a title="Delete User" href="update.php?qid='.$id.'" class="btn btn-danger">Delete<i class="fa-solid fa-trash-can-list"></i></td>
+
+</tr>';
+
+}  
+    $c=0;
+    echo '</table></div></div>';
+    
+    }?>
  
     </div>
     
