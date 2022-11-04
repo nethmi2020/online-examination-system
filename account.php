@@ -16,6 +16,7 @@
 <?php
 include_once 'dbConnection.php';
 ?>
+<body>
  <div class="header">
         <div class="row">
             <div class="col lg-6">
@@ -25,15 +26,15 @@ include_once 'dbConnection.php';
             <?php 
             include_once 'dbConnection.php';
         session_start();
-        if(!isset($_SESSION['email'])){
+        if(!(isset($_SESSION['email']))){
             header("location:index.php");
         }
         else{
-            $name= $_SESSION['name'];
+            // $name= $_SESSION['name'];
             $email= $_SESSION['email'];
 
             include_once 'dbConnection.php';
-            echo '<p style="color:white;"> Hello I am ' .$name.'    <a href="index.php" class="pull-right btn sub1" >
+            echo '<p style="color:white;"> Hello I am Admin    <a href="index.php" class="pull-right btn sub1" >
             <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;
             <span class="title1-signin"><b>Sign out</b></span></a></p>';
         }
@@ -53,7 +54,7 @@ include_once 'dbConnection.php';
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="account.php?q=1">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="dash.php?q=1">History</a>
@@ -61,7 +62,20 @@ include_once 'dbConnection.php';
       <li class="nav-item">
         <a class="nav-link" href="dash.php?q=2">Ranking</a>
       </li>
-   
+
+      <li class="nav-item <?php if(@$_GET['q']==3) echo'class="active"'; ?>">
+        <a class="nav-link" href="dash.php?q=3">Feedback</a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Quiz
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="dash.php?q=4">Add Quiz</a>
+          <a class="dropdown-item" href="dash.php?q=6">Remove Quiz</a>
+      </li>
+
       <li class="nav-item">
         <button class="btn btn-light my-2 my-sm-0 dashlink"> <a href="index.php" style="color:black" >Sign out</a></button>
       </li>
@@ -74,15 +88,126 @@ include_once 'dbConnection.php';
   </div>
 </nav>
 <!--navigation menu closed-->
-<div class="row">
 
-<div class="col-md-7"></div>
-<div class="col-md-4 panel">
-
-</div><!--col-md-6 end-->
-</div></div>
-</div><!--container end-->
-<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
     
+<!-- home page start -->
+
+     <?php if(@$_GET['q']==1){
+    $result = mysqli_query($con,"SELECT * FROM quiz") ;
+
+
+    echo '<table class="table mt-5">
+    <thead>
+      <tr>
+        <th scope="col"><b>S.N.</b></th>
+        <th scope="col"><b>Topic</b></th>
+        <th scope="col"><b>Total Questions</b></th>
+        <th scope="col"><b>Marks</b></th>
+        <th scope="col"><b>Time Limit</b></th>
+    
+      </tr>
+    </thead>';
+
+    $c=1;
+    while($row=mysqli_fetch_array($result)){
+
+      $id=$row['id'];
+      $name=$row['name'];
+      $total=$row['total'];
+      $right=$row['right'];
+      $time=$row['time'];
+      $id=$row['id'];
+
+    $q12=mysqli_query($con,"SELECT score  FROM history WHERE id='$id' AND email='$email'") ;
+    $rowcount=mysqli_num_rows($q12);
+    if($rowcount==0){
+      echo 
+          '<tr>
+
+          <td>'. $id.'</td>
+          <td>'.$name.'</td>
+          <td>'.$total.'</td>
+          <td>'.$right.  '</td>
+          <td>'.$time.'</td>
+          <td><a title="Start Quiz" href="account.php?q=quiz&step=2&qid='.$id.'&n=1&t='.$total.'" class="btn btn-primary">
+          Start Quiz<i class="fa-solid fa-trash-can-list"></i></td>
+
+          </tr>';
+    }
+    else{
+      echo 
+          '<tr>
+
+          <td>'. $id.'</td>
+          <td>'.$name.'</td>
+          <td>'.$total.'</td>
+          <td>'.$right.  '</td>
+          <td>'.$time.'</td>
+          <td><a title="ReStart Quiz" href="update.php?q=quizre&step=25&qid='.$id.'&n=1&t='.$total.'" class="btn btn-primary">
+          Start Quiz<i class="fa-solid fa-trash-can-list"></i></td>
+
+          </tr>';
+    }
+
+
+    }  
+        $c=0;
+        echo '</table></div></div>';
+        
+        }?>
+        <!-- home closed -->
+
+
+        <!-- quiz start -->
+
+        <?php if(@$_GET['q']=='quiz'  && @$_GET['step'] ==2){
+
+          $id=@$_GET['qid']; //quiz eke id eka
+          $sn=@$_GET['n'];
+          $total=@$_GET['t']; // quiz eke thiyn prashn gana
+
+          $q=mysqli_query($con, "SELECT * FROM questions WHERE id='$id' AND sn='$sn' ");
+          echo '<div class="panel">';
+          while($row=mysqli_fetch_array($q)){
+            $qns=$row['qns'];  //question eka
+            $qid=$row['qid'];
+            echo '<b>Question &nbsp;'.$sn.'&nbsp;::' .$qns. '</b><br><br>';
+          }
+
+          $q=mysqli_query($con, "SELECT * FROM options WHERE qid='$qid'  ");
+
+            echo '
+            <form class="form-horizontal title1" action="update.php?q=quiz&step=2&id='.$id.'&n='.$sn.
+            '&t='.$total.'&qid='.$qid.'" method="POST">
+            <br>';
+            
+        
+              while($row=mysqli_fetch_array($q)){
+              
+                $options=$row['options'];
+                $optionid=$row['optionid'];
+
+              echo '<input type="radio" name="ans" value="'.$optionid.'"> '.$options.'<br>';
+              }
+              echo '<br>
+              <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+              </div>
+              ';
+        }
+        ?>
+
+      <?php if(@$_GET['q']=='result' ){
+        
+        echo 'hi';
+      }
+
+      ?>
+         </div>
+    </div>
+  </div>
 </body>
 </html>

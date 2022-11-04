@@ -116,19 +116,39 @@ while($row=mysqli_fetch_array($result)){
   $total=$row['total'];
   $right=$row['right'];
   $time=$row['time'];
+  $id=$row['id'];
 
+$q12=mysqli_query($con,"SELECT score  FROM history WHERE id='$id' AND email='$email'") ;
+$rowcount=mysqli_num_rows($q12);
+if($rowcount==0){
+  echo 
+      '<tr>
 
-echo 
-'<tr>
+      <td>'. $id.'</td>
+      <td>'.$name.'</td>
+      <td>'.$total.'</td>
+      <td>'.$right.  '</td>
+      <td>'.$time.'</td>
+      <td><a title="Start Quiz" href="account.php?q=quiz&step=2&qid='.$id.'&n=1&t='.$total.'" class="btn btn-primary">
+      Start Quiz<i class="fa-solid fa-trash-can-list"></i></td>
 
-<td>'. $id.'</td>
-<td>'.$name.'</td>
-<td>'.$total.'</td>
-<td>'.$right. '</td>
-<td>'.$time.'</td>
-<td><a title="Delete User" href="update.php?qid='.$id.'" class="btn btn-primary">Start Quiz<i class="fa-solid fa-trash-can-list"></i></td>
+      </tr>';
+}
+else{
+  echo 
+      '<tr>
 
-</tr>';
+      <td>'. $id.'</td>
+      <td>'.$name.'</td>
+      <td>'.$total.'</td>
+      <td>'.$right.  '</td>
+      <td>'.$time.'</td>
+      <td><a title="ReStart Quiz" href="update.php?q=quizre&step=25&qid='.$id.'&n=1&t='.$total.'" class="btn btn-primary">
+      Start Quiz<i class="fa-solid fa-trash-can-list"></i></td>
+
+      </tr>';
+}
+
 
 }  
     $c=0;
